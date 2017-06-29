@@ -1,7 +1,6 @@
 defmodule Table do
   @cols 5
   @rows 5
-  @left_orientations %{north: :west, east: :north, south: :east, west: :south}
   @right_orientations %{north: :east, east: :south, south: :west, west: :north}
 
   def valid_position?({x_pos, y_pos, direction}) do
@@ -20,6 +19,10 @@ defmodule Table do
     |> Enum.member?(direction)
   end
 
-  def left(direction), do: @left_orientations[direction]
+  def left(direction), do: invert(@right_orientations)[direction]
   def right(direction), do: @right_orientations[direction]
+
+  def invert(map) do
+    for {key, value} <- map, into: %{}, do: {value, key}
+  end
 end
